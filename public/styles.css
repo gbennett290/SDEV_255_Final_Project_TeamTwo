@@ -15,7 +15,9 @@ p, h1, h2, h3, a, ul{
 
 /* nav & footer styles */
 nav{
-  display: flex;
+  display: center;
+  margin-left: 50px;
+  margin-right: 50px;
   justify-content: space-between;
   margin-bottom: 60px;
   padding-bottom: 10px;
@@ -30,12 +32,21 @@ nav ul{
 nav li{
   list-style-type: none;
   margin-left: 20px;
+  margin-right: 20px;
 }
 nav h1{
+  text-align: center;
   font-size: 3em;
 }
-nav p, nav a{
-  color: #00ffa2;
+nav p{
+  text-align: center;
+  color: #000000;
+  font-weight: 300;
+}
+
+nav a{
+  text-align: center;
+  color: #00ff44;
   font-weight: 300;
 }
 footer{
