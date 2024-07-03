@@ -1,0 +1,22 @@
+<html lang = "en">
+<%- include('./partials/head.ejs') %>
+<body>
+
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="create-class content">
+        <form>
+            <label for="title">Class title:</label>
+            <input type="text" id="title" required>
+            <label for="snippet">Class Information:</label>
+            <input type="text" id="snippet" required>
+            <label for="body">About Class</label>
+            <textarea id="body" required></textarea>
+            <button>Submit</button>
+        </form>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+    
+</body>
+</html>

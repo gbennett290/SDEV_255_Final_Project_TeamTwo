@@ -1,0 +1,26 @@
+<html lang = "en">
+<%- include('./partials/head.ejs') %>
+<body>
+
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="classes content">
+        <h2>Something</h2>
+        
+        <% if (classes.length > 0) { %>
+            <% classes.forEach(blog => { %>
+
+                <h3 class="title"><%= classes.title %></h3>
+                <p class="snippet"><%= classes.snippet %></p>
+
+            <% }) %>
+        <% } else { %>
+            <p>Blah blah blah</p>
+        <% } %> 
+
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+
+</body>
+</html>
