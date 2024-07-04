@@ -4,10 +4,13 @@ const morgan = require('morgan');
 
 const app = express();
 
+const PORT = process.env.PORT || 3030;
 
 app.set('view engine', 'ejs');
 
-app.listen(3000);
+app.listen(PORT, () => {
+    console.log('server started on port ${PORT}');
+});
 
 app.use(express.static('public'));
 
