@@ -4,14 +4,14 @@
 
     <%- include('./partials/nav.ejs') %>
 
-    <div class="classes content">
-        <h2>This is a placeholder</h2>
-        
+    <div class="content"><h2>Your Current Courses</h2></div>
+    <div class="classes">        
         <% if (classes.length > 0) { %>
-            <% classes.forEach(blog => { %>
+            <% classes.forEach(entry => { %>
 
-                <h3 class="title"><%= classes.title %></h3>
-                <p class="snippet"><%= classes.snippet %></p>
+                <div class="entry">
+                    <h3 class="title"><%= entry.title %></h3>
+                </div>
 
             <% }) %>
         <% } else { %>
