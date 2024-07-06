@@ -4,11 +4,21 @@
 
     <%- include('./partials/nav.ejs') %>
 
-    <div class="about content">
-        <h2>Classes</h2>
-        <p>Placeholder</p>
-        <p>Placeholder</p>
-        <p>Placeholder</p>
+    <div class="content"><h2>Course List</h2></div>
+    <div class="course-list">
+        <% if (classes.length > 0) { %>
+            <% classes.forEach(entry => { %>
+
+                <button>ADD COURSE</button>                  
+                <div class="course-description">
+                    <h3 class="title"><%= entry.title %></h3>                    
+                    <p class="snippet"><%= entry.snippet %></p>
+                </div> 
+
+            <% }) %>
+        <% } else { %>
+            <p>Blah blah blah</p>
+        <% } %> 
     </div>
     
     <%- include('./partials/footer.ejs') %>
