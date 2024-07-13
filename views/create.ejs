@@ -4,14 +4,19 @@
 
     <%- include('./partials/nav.ejs') %>
 
-    <div class="create-class content">
-        <form>
-            <label for="title">Class title:</label>
-            <input type="text" id="title" required>
-            <label for="snippet">Class Information:</label>
-            <input type="text" id="snippet" required>
-            <label for="body">About Class</label>
-            <textarea id="body" required></textarea>
+    <div class="create-course">
+        <h2>Add New Course</h2>
+        <form action="/courses" method="POST">
+            <label for="code">Course Code:</label>
+            <input type="text" id="code" name="code" placeholder="Example: SDEV255" required>
+            <label for="title">Course Title:</label>
+            <input type="text" id="title" name="title" placeholder="Example: Web Application Development" required>
+            <label for="subject">Course Subject Area:</label>
+            <input type="text" id="subject" name="subject" placeholder="Example: Software Development" required>
+            <label for="credits">Credit Hours:</label>
+            <input type="number" id="credits" name="credits" min="1" max="4" placeholder="Enter a value between 1 and 4" required>
+            <label for="description">Enter course description:</label>
+            <textarea id="description" name="description" required></textarea>
             <button>Submit</button>
         </form>
     </div>

@@ -65,7 +65,10 @@ h3{
   text-transform: capitalize;
   margin-bottom: 8px;
 }
-.content{
+.bold{
+  font-weight: 700;
+}
+.content h2{
   margin-left: 20px;
 }
 
@@ -99,8 +102,9 @@ h3{
   margin-left: 24px;
 }
 
-/* details styles */
+/* courses styles */
 .course-list{
+  align-items: center;
   display: grid;
   grid-template-columns: auto auto;
   border: solid;
@@ -111,39 +115,80 @@ h3{
   column-gap: 24px;
   row-gap: 24px;
   border-radius: 8px;
-}
-
-.course-list button {
-  height: 24px;
-  grid-column-start: 1;
-  grid-column-end: 1;
+  justify-content: start;
 }
 
 .entry {
   grid-column-start: 2;
-  grid-column-end: 2;
+  grid-column-end: 2;  
+}
+
+.delete {
+  height: 24px;
+  width: 145px;
+  grid-column-start: 1;
+  grid-column-end: 1;
+  font-weight: 700;
+  padding: 8px;
+  border-radius: 8px;
+  border: solid;
+  border-width: 1px;
+  border-color: #dddddd;
+  
+}
+
+.delete:hover{
+  cursor: pointer;
+  border-radius: 8px;
+  color: white;
+  background-color: red;
+}
+
+/*.delete:hover + .course-description{
+}*/  
+
+/* detail styles*/
+.details {
+  border: solid;
+  border-color: #d8d8d8;
+  border-width: 2px;
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.details p{
+  padding-bottom: 16px;
+}
+
+.single h3:hover {
+  color: #8dc63f;
 }
 
 /* create styles */
-.create-class form{
+.create-course h2{
   max-width: 400px;
   margin: 0 auto;
 }
-.create-class input,
-.create-class textarea{
+.create-course form{
+  max-width: 400px;
+  margin: 0 auto;
+}
+.create-course input,
+.create-course textarea{
   display: block;
   width: 100%;
   margin: 10px 0;
   padding: 8px;
 }
-.create-class label{
+.create-course label{
   display: block;
   margin-top: 24px;
 }
 textarea{
   height: 120px;
 }
-.create-class button{
+.create-course button{
   margin-top: 20px;
   background: green;
   color: white;
