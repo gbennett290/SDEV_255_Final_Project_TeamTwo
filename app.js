@@ -1,19 +1,20 @@
+require('dotenv').config();
 const express = require('express');
-
 const morgan = require('morgan');
+const mongoose = require('mongoose');
+const Course = require('./models/course');
 
+// express app
 const app = express();
 
 const PORT = process.env.PORT || 3030;
 
-//Replace with database connection in Module 6
-const classes = [
-    {title: 'Game Development', snippet: 'A class that teaches the process of game development.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus orci sed purus finibus, sit amet lobortis neque laoreet. Suspendisse pretium placerat mollis. Maecenas venenatis elit vitae nunc convallis elementum. Duis euismod quis mauris id cursus. Sed euismod cursus dapibus. Mauris aliquam magna dui, ut. '},
-    {title: 'Website Development', snippet: 'A class that teaches how to build a website.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus orci sed purus finibus, sit amet lobortis neque laoreet. Suspendisse pretium placerat mollis. Maecenas venenatis elit vitae nunc convallis elementum. Duis euismod quis mauris id cursus. Sed euismod cursus dapibus. Mauris aliquam magna dui, ut. '},
-    {title: 'Graphic Design', snippet: 'A class that teaches graphically centered design.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus orci sed purus finibus, sit amet lobortis neque laoreet. Suspendisse pretium placerat mollis. Maecenas venenatis elit vitae nunc convallis elementum. Duis euismod quis mauris id cursus. Sed euismod cursus dapibus. Mauris aliquam magna dui, ut. '},
-    {title: 'Calculus', snippet: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus orci sed purus finibus, sit amet lobortis neque laoreet. Suspendisse pretium placerat mollis. Maecenas venenatis elit vitae nunc convallis elementum. Duis euismod quis mauris id cursus. Sed euismod cursus dapibus. Mauris aliquam magna dui, ut. '},
-    {title: 'Data Security', snippet: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus orci sed purus finibus, sit amet lobortis neque laoreet. Suspendisse pretium placerat mollis. Maecenas venenatis elit vitae nunc convallis elementum. Duis euismod quis mauris id cursus. Sed euismod cursus dapibus. Mauris aliquam magna dui, ut. '}
-];
+// connect to mongodb
+const dbURI = process.env.MONGO_URI;
+
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true})
+    .then((result) => app.listen(3000))
+    .catch((err) => console.log(err));
 
 app.set('view engine', 'ejs');
 
@@ -21,23 +22,79 @@ app.listen(PORT, () => {
     console.log('server started on port ${PORT}');
 });
 
+// middleware & static files
 app.use(express.static('public'));
-
+app.use(express.urlencoded( { extended: true}));
 app.use(morgan('dev'));
 
+
+// routes
 app.get('/', (req, res) =>{
-    res.render('index', { title: 'Your Courses', classes });
+    Course.find().sort({ code: 'asc'})
+    .then((result)=> {
+        res.render('index', {title: 'Your Courses', courses: result})
+    })
+    .catch((err) => {
+        console.log(err);
+    }); 
 });
 
-app.get('/classes', (req, res) =>{
-    res.render('classes', { title: 'Course List', classes });
+
+
+
+// course routes
+app.get('/courses', (req, res) =>{
+    Course.find().sort({ code: 'asc'})
+    .then((result)=> {
+        res.render('courses', {title: 'Course Index', courses: result})
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 });
 
-app.get('/classes/create', (req, res) => {
+app.post('/courses', (req,res) => {
+    const course = new Course(req.body);
+    course.save()
+        .then((result) => {
+            res.redirect('/courses');
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+app.get('/courses/create', (req, res) => {
     res.render('create', { title: 'Edit or Create New Courses' });
 })
 
-app.get('/classes/signin', (req, res) => {
+app.get('/courses/:id', (req, res) => {
+    const id = req.params.id;
+
+    Course.findById(id)
+        .then((result) => {
+            res.render('details', { course: result, title: 'Course Details'})
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+app.delete('/courses/:id', (req, res) => {
+    const id = req.params.id;
+
+    Course.findByIdAndDelete(id)
+        .then(result => {
+            res.json({ redirect: '/courses'})
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+
+
+// signin routes
+app.get('/signin', (req, res) => {
     res.render('signin', { title: 'Sign In' });
 })
 

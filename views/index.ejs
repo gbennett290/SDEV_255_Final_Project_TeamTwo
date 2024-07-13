@@ -4,22 +4,26 @@
 
     <%- include('./partials/nav.ejs') %>
 
-    <div class="content"><h2>Your Current Courses</h2></div>
-    <div class="classes">        
-        <% if (classes.length > 0) { %>
-            <% classes.forEach(entry => { %>
+    <div class="content">
+        <h2>Your Current Courses</h2>
+        <div class="classes">        
+            <% if (courses.length > 0) { %>
+                <% courses.forEach(entry => { %>
 
-                <div class="entry">
-                    <h3 class="title"><%= entry.title %></h3>
-                </div>
+                    <div class="entry">
+                        <a class="single" href="/courses/<%= entry._id %>">
+                            <h3 class="title"><%= entry.code %> - <%= entry.title %></h3>
+                        </a>
+                    </div>
 
-            <% }) %>
-        <% } else { %>
-            <p>Blah blah blah</p>
-        <% } %> 
+                <% }) %>
+            <% } else { %>
+                <p>You have no registered courses.</p>
+            <% } %> 
 
+        </div>
+        <br><p>This is a placeholder redisplay of current course index until the student-facing code is implemented.</p>
     </div>
-
     <%- include('./partials/footer.ejs') %>
 
 </body>
