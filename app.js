@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Course = require('./models/course');
+const authRoutes = require('./routes/authRoutes')
 
 // express app
 const app = express();
@@ -26,7 +27,7 @@ app.listen(PORT, () => {
 app.use(express.static('public'));
 app.use(express.urlencoded( { extended: true}));
 app.use(morgan('dev'));
-
+app.use(express.json());
 
 // routes
 app.get('/', (req, res) =>{
@@ -38,9 +39,6 @@ app.get('/', (req, res) =>{
         console.log(err);
     }); 
 });
-
-
-
 
 // course routes
 app.get('/courses', (req, res) =>{
@@ -92,6 +90,8 @@ app.delete('/courses/:id', (req, res) => {
         });
 });
 
+// auth routes
+app.use(authRoutes);
 
 // signin routes
 app.get('/signin', (req, res) => {
