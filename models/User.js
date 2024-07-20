@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter an email'],
         unique: true,
-        lowerdcase: true,
+        lowercase: true,
         validate: [isEmail, 'Please enter a valid email']
     },
     password: {
@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please enter a password'],
         minlength: [6, 'minimum password length is 6 characters'],
     },
+    isTeacher: {
+        type: Boolean,
+        required: [false, "Teacher check failed"]
+    }
 });
 
 // fire a function after doc saved to DB
@@ -46,3 +50,7 @@ userSchema.statics.login = async function (email, password) {
 const User = mongoose.model('user', userSchema);
 
 module.exports = User;
+
+
+
+// maybe use an if if else statement when checking user in checkUser function that checks if teacher secret is there or teams 2 secret else 

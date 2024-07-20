@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Course = require('./models/course');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
-const { requireAuth, checkUser } = require('./middleware/authMiddleware');
+const { requireAuth, checkUser, checkTeacher } = require('./middleware/authMiddleware');
 
 // express app
 const app = express();
@@ -66,9 +66,16 @@ app.post('/courses', (req,res) => {
         });
 });
 
-app.get('/courses/create', (req, res) => {
-    res.render('create', { title: 'Edit or Create New Courses' });
-})
+app.get('/courses/create', requireAuth, (req, res) => {
+    const isTeacher = checkTeacher(req, res);
+    //console.log(isTeacher);
+    if (isTeacher === true) {
+        res.render('create', { title: 'Edit or Create New Courses' });
+    }
+    else {
+        res.redirect('/');
+    };
+});
 
 app.get('/courses/:id', (req, res) => {
     const id = req.params.id;
@@ -82,7 +89,7 @@ app.get('/courses/:id', (req, res) => {
         });
 });
 
-app.delete('/courses/:id', (req, res) => {
+app.delete('/courses/:id', requireAuth, (req, res) => {
     const id = req.params.id;
 
     Course.findByIdAndDelete(id)
@@ -113,3 +120,7 @@ app.use((req, res) => {
 // I think we need to make the log in page the index or main, then once they login they should be able to (using requireAuth funciton) access the your courses page and course index  and add course pages. Video number 15 about 9 minutes in is location to follow requireAuth paths.
  
 // check line 36, this is what we need to do for student/teachers validation to make each page accessible by just their respective parts (video 18)
+
+// need new index/main page for when site is first opened rather than course Course.listIndexes.
+ 
+// maybe use an if if else statement when checking user in checkUser function that checks if teacher secret is there or teams 2 secret else 
