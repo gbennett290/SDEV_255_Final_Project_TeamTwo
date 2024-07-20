@@ -33,6 +33,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // routes
+app.get('*', checkUser);
 app.get('/', (req, res) =>{
     Course.find().sort({ code: 'asc'})
     .then((result)=> {
@@ -110,3 +111,5 @@ app.use((req, res) => {
 
 
 // I think we need to make the log in page the index or main, then once they login they should be able to (using requireAuth funciton) access the your courses page and course index  and add course pages. Video number 15 about 9 minutes in is location to follow requireAuth paths.
+ 
+// check line 36, this is what we need to do for student/teachers validation to make each page accessible by just their respective parts (video 18)

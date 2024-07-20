@@ -2,12 +2,18 @@
     <div class="site-title">
         <a href="/"><h1>Course <span class="secondary-title">Adjust</span></h1></a>
     </div>
+    <% if (user) { %>
+    <p>Hello, <%= user.email %></p>
+    <% } %>
     <ul>
+        <% if (user) { %>
         <li><a href="/">Your Courses</a></li>
         <li><a href="/courses">Course Index</a></li>
         <li><a href="/courses/create">Add Course</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <% } else { %>
         <li><a href="/login">Log In</a></li>
         <li><a href="/signup">Sign Up</a></li>
-        <li><a href="/logout">Logout</a></li>
+        <% } %>
     </ul>
 </nav>
