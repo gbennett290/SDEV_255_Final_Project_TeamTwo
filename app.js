@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const Course = require('./models/course');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
+const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 
 // express app
 const app = express();
@@ -105,3 +106,7 @@ app.use((req, res) => {
     res.status(404).render('404', { title: '404' });
 });
 
+
+
+
+// I think we need to make the log in page the index or main, then once they login they should be able to (using requireAuth funciton) access the your courses page and course index  and add course pages. Video number 15 about 9 minutes in is location to follow requireAuth paths.
