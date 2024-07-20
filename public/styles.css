@@ -207,6 +207,11 @@ textarea{
   border-radius: 10px;
   background: white;
 }
+.error{
+  color: red;
+  margin: 10px 2px;
+  font-weight: bold;
+}
 
 /* login styles */
 .login{
