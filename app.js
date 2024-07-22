@@ -35,9 +35,13 @@ app.use(cookieParser());
 // routes
 app.get('*', checkUser);
 app.get('/', (req, res) =>{
+    res.render('index', {title: 'Home'})
+});
+
+app.get('/schedule', requireAuth, (req, res) =>{
     Course.find().sort({ code: 'asc'})
     .then((result)=> {
-        res.render('index', {title: 'Your Courses', courses: result})
+        res.render('schedule', {title: 'Your Schedule', courses: result})
     })
     .catch((err) => {
         console.log(err);
@@ -45,7 +49,7 @@ app.get('/', (req, res) =>{
 });
 
 // course routes
-app.get('/courses', (req, res) =>{
+app.get('/courses', requireAuth, (req, res) =>{
     Course.find().sort({ code: 'asc'})
     .then((result)=> {
         res.render('courses', {title: 'Course Index', courses: result})
@@ -55,29 +59,30 @@ app.get('/courses', (req, res) =>{
     });
 });
 
-app.post('/courses', (req,res) => {
-    const course = new Course(req.body);
-    course.save()
-        .then((result) => {
-            res.redirect('/courses');
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-});
-
-app.get('/courses/create', requireAuth, (req, res) => {
-    const isTeacher = checkTeacher(req, res);
-    //console.log(isTeacher);
-    if (isTeacher === true) {
-        res.render('create', { title: 'Edit or Create New Courses' });
-    }
-    else {
+app.post('/courses', requireAuth, checkTeacher, (req,res) => {
+    if (req.isTeacher === true) {
+        const course = new Course(req.body);
+        course.save()
+            .then((result) => {
+                res.redirect('/courses');
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    } else {
         res.redirect('/');
     };
 });
 
-app.get('/courses/:id', (req, res) => {
+app.get('/courses/create', requireAuth, checkTeacher, (req, res) => { 
+    if (req.isTeacher === true) {
+        res.render('create', { title: 'Edit or Create New Courses' });
+    } else {
+        res.redirect('/');
+    };
+});
+
+app.get('/courses/:id', requireAuth, (req, res) => {
     const id = req.params.id;
 
     Course.findById(id)
@@ -89,16 +94,20 @@ app.get('/courses/:id', (req, res) => {
         });
 });
 
-app.delete('/courses/:id', requireAuth, (req, res) => {
+app.delete('/courses/:id', requireAuth, checkTeacher, (req, res) => {
     const id = req.params.id;
 
-    Course.findByIdAndDelete(id)
-        .then(result => {
-            res.json({ redirect: '/courses'})
-        })
-        .catch(err => {
-            console.log(err);
-        });
+    if (req.isTeacher === true) {
+        Course.findByIdAndDelete(id)
+            .then(result => {
+                res.json({ redirect: '/courses'})
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    } else {
+        res.redirect('/');
+    };
 });
 
 // auth routes
@@ -117,10 +126,9 @@ app.use((req, res) => {
 
 
 
-// I think we need to make the log in page the index or main, then once they login they should be able to (using requireAuth funciton) access the your courses page and course index  and add course pages. Video number 15 about 9 minutes in is location to follow requireAuth paths.
+// Video number 15 about 9 minutes in is location to follow requireAuth paths.
  
 // check line 36, this is what we need to do for student/teachers validation to make each page accessible by just their respective parts (video 18)
 
 // need new index/main page for when site is first opened rather than course Course.listIndexes.
  
-// maybe use an if if else statement when checking user in checkUser function that checks if teacher secret is there or teams 2 secret else 

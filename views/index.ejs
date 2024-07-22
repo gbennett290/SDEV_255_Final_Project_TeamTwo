@@ -5,24 +5,12 @@
     <%- include('./partials/nav.ejs') %>
 
     <div class="content">
-        <h2>Your Current Courses</h2>
-        <div class="classes">        
-            <% if (courses.length > 0) { %>
-                <% courses.forEach(entry => { %>
-
-                    <div class="entry">
-                        <a class="single" href="/courses/<%= entry._id %>">
-                            <h3 class="title"><%= entry.code %> - <%= entry.title %></h3>
-                        </a>
-                    </div>
-
-                <% }) %>
-            <% } else { %>
-                <p>You have no registered courses.</p>
-            <% } %> 
-
-        </div>
-        <br><p>This is a placeholder redisplay of current course index until the student-facing code is implemented.</p>
+        <h2>Welcome to CourseAdjust</h2>
+        <p>Ut lobortis imperdiet augue, sed vestibulum sem malesuada sed. Curabitur et tortor eu ligula pulvinar rhoncus ut sed lorem. Etiam porttitor mauris at nisl consequat, ac feugiat risus imperdiet. Vivamus iaculis ultrices nunc in aliquam. Fusce et felis arcu. Aliquam ligula est, pretium et lorem quis, maximus placerat nunc. Nam sodales risus porttitor, auctor ipsum in, tempus urna. Sed ultricies mi sed purus ultricies, nec mollis massa rutrum. Proin tempus nisl ligula, vel semper justo accumsan et. Cras commodo nulla vel felis pretium facilisis. Ut porta eros sagittis, accumsan mauris ac, vehicula ante. Praesent porta posuere aliquet. Vestibulum varius lobortis odio et tristique. Fusce ultricies lacinia varius. Nunc pulvinar a ipsum eget semper.</p>
+        <br>
+        <p>Nulla pretium erat at lectus fringilla, eget vehicula ante blandit. Phasellus id dictum nisi, vitae feugiat dolor. Aliquam nibh turpis, suscipit hendrerit placerat id, pretium tincidunt ipsum. Donec molestie gravida libero, id aliquet orci eleifend nec. Ut nec malesuada urna. Morbi a augue nunc. Nunc tempor, lorem a semper finibus, ante nulla venenatis nunc, et pellentesque neque neque quis turpis. Cras in euismod dui, id accumsan nunc. Duis ligula mi, rhoncus eget lorem eu, bibendum blandit justo. Etiam tincidunt tempus orci ut aliquam. Ut tempus nisi nec vulputate aliquet. Aenean dictum risus nisi. Sed at pharetra ex.</p>
+        <br>   
+        <p>Maecenas justo orci, tincidunt nec nibh et, aliquam mollis nisi. Suspendisse suscipit nunc erat, et vestibulum erat pharetra nec. Aenean convallis sapien quis ipsum placerat sodales. Donec in molestie lectus. Cras auctor sapien at eros accumsan, ut volutpat nisi luctus. Morbi et erat libero. Vestibulum non odio commodo, pharetra massa in, cursus leo. Suspendisse potenti. Proin eget efficitur augue. Maecenas porta quam ac ante finibus, nec condimentum erat rhoncus. Nulla dignissim venenatis nunc. Mauris nec finibus magna, vitae laoreet lectus. Sed mattis, dolor interdum rutrum scelerisque, turpis lorem ultrices sem, nec cursus urna eros id nisi. Nullam quis massa malesuada, aliquet risus vitae, suscipit ipsum.</p>
     </div>
     <%- include('./partials/footer.ejs') %>
 

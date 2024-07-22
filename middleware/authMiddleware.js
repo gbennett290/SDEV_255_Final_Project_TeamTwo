@@ -48,36 +48,28 @@ const checkUser = (req, res, next) => {
 }
 
 // check teacher
-const checkTeacher = (req, res) => {
+const checkTeacher = (req, res, next) => {
     const token = req.cookies.jwt;
+    req.isTeacher = false;
 
     if (token) {
         jwt.verify(token, 'Team 2 Secret', async (err, decodedToken) => {
             if(err) {
                 console.log(err.message);
+                next();
             }
             else {
                 console.log(decodedToken);
-                let user = await User.findById(decodedToken.id);
-                
+                let user = await User.findById(decodedToken.id);       
+                req.isTeacher = user.isTeacher;
+                next();
             }
         });
-        console.log(user);
-        return false;
     }
     else {
         console.log('checkTeacher no token');
+        next();
     }
-
-
 }
 
 module.exports = { requireAuth, checkUser, checkTeacher };
-
-// if (user.isTeacher === true) {
-    //console.log('this is a teacher')
-   // return true;
-//}
-//else {
- //   return false;
-//}

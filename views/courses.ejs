@@ -4,10 +4,14 @@
 
     <%- include('./partials/nav.ejs') %>
 
+    
+    <% if (user.isTeacher === true) { %>
+    <!-- TEACHER PAGE BODY-->
     <div class="content"><h2>Course Index</h2></div>
     <div class="course-list">
         <% if (courses.length > 0) { %>
             <% courses.forEach(entry => { %>
+                
                 <a class="delete" data-doc="<%= entry._id %>">Delete Course 🗑️</a>                  
                 <div class="course-description">
                     <a class="single" href="/courses/<%= entry._id %>">
@@ -20,8 +24,30 @@
         <% } %> 
     </div>
     
+    <% } else { %>
+    <!-- STUDENT PAGE BODY-->
+    <div class="content"><h2>Course Index</h2></div>
+    <div class="course-list">
+        <% if (courses.length > 0) { %>
+            <% courses.forEach(entry => { %>
+                
+                <a class="add" data-doc="<%= entry._id %>">Add Course ➕</a>                 
+                <div class="course-description">
+                    <a class="single" href="/courses/<%= entry._id %>">
+                        <h3 class="title"><%= entry.code %> - <%= entry.title %></h3>
+                    </a>                    
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>The course index is currently empty</p>
+        <% } %> 
+    </div>
+    <% } %>
+
     <%- include('./partials/footer.ejs') %>
 
+    <% if (user.isTeacher === true) { %>
+    <!-- TEACHER SCRIPTS-->
     <script>
         const trashcan = document.querySelectorAll('a.delete');
 
@@ -37,6 +63,9 @@
                 .catch(err => console.log(err));
             });
         }
-      </script>
+    </script>
+    <% } else { %>
+    <!-- PLACEHOLDER STUDENT SCRIPTS-->    
+    <% } %>
 </body>
 </html>

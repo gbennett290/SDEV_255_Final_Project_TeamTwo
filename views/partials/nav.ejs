@@ -2,14 +2,17 @@
     <div class="site-title">
         <a href="/"><h1>Course <span class="secondary-title">Adjust</span></h1></a>
     </div>
-    <% if (user) { %>
-    <p>Hello, <%= user.email %></p>
-    <% } %>
-    <ul>
+    <% if (user) { %><p class="greeting">Hello, <%= user.email %></p><% } %>
+    <ul>        
+        <li><a href="/"><i class='bx bxs-home'></i> Home</a></li>
         <% if (user) { %>
-        <li><a href="/">Your Courses</a></li>
+        <% if (user.isTeacher === false) { %>    
+        <li><a href="/schedule">Your Schedule</a></li>
+        <% } %>
         <li><a href="/courses">Course Index</a></li>
+        <% if (user.isTeacher === true) { %>
         <li><a href="/courses/create">Add Course</a></li>
+        <% } %>
         <li><a href="/logout">Logout</a></li>
         <% } else { %>
         <li><a href="/login">Log In</a></li>
