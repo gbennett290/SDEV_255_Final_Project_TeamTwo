@@ -11,7 +11,7 @@
                 <% schedule.forEach(entry => { %>
 
                     <a class="drop" data-doc="<%= entry._id %>">Drop Course ➖</a> 
-                    <div class="entry">                        
+                    <div class="course-description">                        
                         <a class="single" href="/courses/<%= entry._id %>">
                             <h3 class="title"><%= entry.code %> - <%= entry.title %></h3>
                         </a>
