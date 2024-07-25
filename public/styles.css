@@ -119,6 +119,21 @@ h3 {
 }
 
 /* index styles */
+
+.about {
+  margin-left: 20px;  
+}
+
+.about ul {
+  margin-left: 48px;
+}
+
+.about p,
+.about h3 {
+  margin-top: 16px;
+  margin-left: 20px;
+}
+
 .classes {
   border: solid;
   border-color: #d8d8d8;
