@@ -6,11 +6,12 @@
 
     <div class="content">
         <h2>Your Current Schedule</h2>
-        <div class="classes">        
-            <% if (courses.length > 0) { %>
-                <% courses.forEach(entry => { %>
+        <div class="course-list">        
+            <% if (schedule.length > 0) { %>
+                <% schedule.forEach(entry => { %>
 
-                    <div class="entry">
+                    <a class="drop" data-doc="<%= entry._id %>">Drop Course ➖</a> 
+                    <div class="entry">                        
                         <a class="single" href="/courses/<%= entry._id %>">
                             <h3 class="title"><%= entry.code %> - <%= entry.title %></h3>
                         </a>
@@ -18,13 +19,29 @@
 
                 <% }) %>
             <% } else { %>
-                <p>You have no registered courses.</p>
+                <p>You have no registered courses! <br>
+                Navigate to the Course Index from the menu above to add courses to your schedule.</p>
             <% } %> 
 
         </div>
-        <br><p>This is a placeholder redisplay of current course index until the student-facing code is implemented in M8.</p>
     </div>
     <%- include('./partials/footer.ejs') %>
 
+    <script>
+        const dropButton = document.querySelectorAll('a.drop');
+
+        for (var i = 0; i < dropButton.length; i++){
+            dropButton[i].addEventListener('click', (e) => {                               
+                const endpoint = `/courses/drop/${e.target.dataset.doc}`;
+
+                fetch(endpoint, {
+                    method: 'POST'
+                })
+                .then((response) => response.json())
+                .then((data) => window.location.href = data.redirect)
+                .catch(err => console.log(err));
+            });
+        }
+    </script> 
 </body>
 </html>

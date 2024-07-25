@@ -30,8 +30,7 @@
     <div class="course-list">
         <% if (courses.length > 0) { %>
             <% courses.forEach(entry => { %>
-                
-                <a class="add" data-doc="<%= entry._id %>">Add Course ➕</a>                 
+                <a class="add" data-doc="<%= entry._id %>">Add Course ➕</a>                                 
                 <div class="course-description">
                     <a class="single" href="/courses/<%= entry._id %>">
                         <h3 class="title"><%= entry.code %> - <%= entry.title %></h3>
@@ -59,13 +58,43 @@
                     method: 'DELETE'
                 })
                 .then((response) => response.json())
-                .then((data) => window.location.href = data.redirect)
+                .then((data) => {
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    }                    
+                    if (data.errors) {
+                        courseError.textContent = data.errors;
+                    }                    
+                })
                 .catch(err => console.log(err));
             });
         }
     </script>
     <% } else { %>
-    <!-- PLACEHOLDER STUDENT SCRIPTS-->    
+    <!-- STUDENT SCRIPTS-->
+    <script>
+        const addButton = document.querySelectorAll('a.add');
+
+        for (var i = 0; i < addButton.length; i++){
+            addButton[i].addEventListener('click', (e) => {                               
+                const endpoint = `/courses/add/${e.target.dataset.doc}`;
+
+                fetch(endpoint, {
+                    method: 'POST'
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    }                    
+                    if (data.errors) {
+                        alert(data.errors);
+                    }                    
+                })
+                .catch(err => console.log(err));
+            });
+        }
+    </script>    
     <% } %>
 </body>
 </html>
