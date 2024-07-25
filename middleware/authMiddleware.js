@@ -35,7 +35,8 @@ const checkUser = (req, res, next) => {
             }
             else {
                 console.log(decodedToken);
-                let user = await User.findById(decodedToken.id)
+                let user = await User.findById(decodedToken.id);
+                req.userID = decodedToken.id;
                 res.locals.user = user;
                 next();
             }
@@ -60,7 +61,7 @@ const checkTeacher = (req, res, next) => {
             }
             else {
                 console.log(decodedToken);
-                let user = await User.findById(decodedToken.id);       
+                let user = await User.findById(decodedToken.id);                       
                 req.isTeacher = user.isTeacher;
                 next();
             }

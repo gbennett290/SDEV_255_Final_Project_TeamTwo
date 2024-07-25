@@ -18,7 +18,8 @@ const userSchema = new mongoose.Schema({
     isTeacher: {
         type: Boolean,
         required: [false, "Teacher check failed"]
-    }
+    },
+    schedule: [{ type: String }]
 });
 
 // fire a function after doc saved to DB

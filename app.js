@@ -3,7 +3,9 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Course = require('./models/course');
+const User = require('./models/User');
 const authRoutes = require('./routes/authRoutes');
+const courseRoutes = require('./routes/courseRoutes');
 const cookieParser = require('cookie-parser');
 const { requireAuth, checkUser, checkTeacher } = require('./middleware/authMiddleware');
 
@@ -34,101 +36,70 @@ app.use(cookieParser());
 
 // routes
 app.get('*', checkUser);
+app.post('*', checkUser);
 app.get('/', (req, res) =>{
     res.render('index', {title: 'Home'})
 });
 
-app.get('/schedule', requireAuth, (req, res) =>{
-    Course.find().sort({ code: 'asc'})
-    .then((result)=> {
-        res.render('schedule', {title: 'Your Schedule', courses: result})
+// schedule route
+app.get('/schedule', requireAuth, checkTeacher, (req, res) =>{
+    const userID = req.userID;
+    console.log(userID);
+
+    // Sentinel to prevent manual access
+    if (req.isTeacher === true) {
+        res.redirect('/');
+    }
+
+    // Lookup user by ID and use their schedule to lookup the relevant course data from the courses collection
+    User.findById(userID)
+    .then((result)=> {        
+        Course.find({'_id' : { $in: result.schedule }}).sort({ code: 'asc'})
+        .then((result)=> {
+
+            // Send filtered courses as a schedule along with the response
+            res.render('schedule', {title: 'Your Schedule', schedule: result})
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     })
     .catch((err) => {
         console.log(err);
     }); 
 });
 
-// course routes
-app.get('/courses', requireAuth, (req, res) =>{
-    Course.find().sort({ code: 'asc'})
-    .then((result)=> {
-        res.render('courses', {title: 'Course Index', courses: result})
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-});
-
-app.post('/courses', requireAuth, checkTeacher, (req,res) => {
+// create route
+app.get('/create', requireAuth, checkTeacher, (req, res) => { 
     if (req.isTeacher === true) {
-        const course = new Course(req.body);
-        course.save()
-            .then((result) => {
-                res.redirect('/courses');
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        res.render('create', { title: 'Create New Courses' });
     } else {
         res.redirect('/');
     };
 });
 
-app.get('/courses/create', requireAuth, checkTeacher, (req, res) => { 
+// update route
+app.get('/update', requireAuth, checkTeacher, (req, res) => { 
     if (req.isTeacher === true) {
-        res.render('create', { title: 'Edit or Create New Courses' });
-    } else {
-        res.redirect('/');
-    };
-});
-
-app.get('/courses/:id', requireAuth, (req, res) => {
-    const id = req.params.id;
-
-    Course.findById(id)
-        .then((result) => {
-            res.render('details', { course: result, title: 'Course Details'})
+        Course.find().sort({ code: 'asc'})
+        .then((result)=> {
+            res.render('update', { title: 'Edit Existing Courses', courses: result });
         })
         .catch((err) => {
             console.log(err);
-        });
-});
-
-app.delete('/courses/:id', requireAuth, checkTeacher, (req, res) => {
-    const id = req.params.id;
-
-    if (req.isTeacher === true) {
-        Course.findByIdAndDelete(id)
-            .then(result => {
-                res.json({ redirect: '/courses'})
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        });        
     } else {
         res.redirect('/');
     };
 });
+
+// course routes
+app.use(courseRoutes);
 
 // auth routes
 app.use(authRoutes);
 
-// signin routes
-app.get('/signin', (req, res) => {
-    res.render('signin', { title: 'Sign In' });
-})
-
 // 404 page
 app.use((req, res) => {
     res.status(404).render('404', { title: '404' });
-});
-
-
-
-
-// Video number 15 about 9 minutes in is location to follow requireAuth paths.
- 
-// check line 36, this is what we need to do for student/teachers validation to make each page accessible by just their respective parts (video 18)
-
-// need new index/main page for when site is first opened rather than course Course.listIndexes.
- 
+}); 

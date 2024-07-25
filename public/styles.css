@@ -26,7 +26,7 @@ nav {
   margin-left: 0px;
   margin-right: 0px;
   justify-content: space-between;
-  margin-bottom: 60px;
+  margin-bottom: 48px;
   padding-bottom: 10px;
   padding-top: 10px;
   border-bottom: 1px solid rgb(0, 0, 0);
@@ -63,6 +63,18 @@ nav a {
   text-align: center;
   color: #ffffff;
   font-weight: 700;
+}
+
+span.count {
+  color: #8dc63f;
+}
+
+span.seperator {
+  text-align: center;
+  color: #8dc63f;
+  font-weight: 700;
+  padding-left: 8px;  
+  padding-right: 8px;
 }
 
 footer {
@@ -107,6 +119,21 @@ h3 {
 }
 
 /* index styles */
+
+.about {
+  margin-left: 20px;  
+}
+
+.about ul {
+  margin-left: 48px;
+}
+
+.about p,
+.about h3 {
+  margin-top: 16px;
+  margin-left: 20px;
+}
+
 .classes {
   border: solid;
   border-color: #d8d8d8;
@@ -128,16 +155,30 @@ h3 {
 .course-list {
   align-items: center;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto 1fr;
   border: solid;
   border-color: #d8d8d8;
   border-width: 2px;
   background-color: white;
   padding: 24px;
   column-gap: 24px;
-  row-gap: 24px;
+  row-gap: 8px;
   border-radius: 8px;
   justify-content: start;
+}
+
+.course-list div:nth-of-type(odd) {
+  background-color: #f5f5f5;
+}
+
+.course-description {
+  background-color: #f5f5f5;
+  height: 24px;
+  padding: 8px;
+  border-radius: 8px;
+  border:solid;
+  border-width: 1px;
+  border-color: #f5f5f5;
 }
 
 .entry {
@@ -146,7 +187,8 @@ h3 {
 }
 
 .add,
-.delete {
+.delete,
+.drop {
   height: 24px;
   width: 145px;
   grid-column-start: 1;
@@ -167,11 +209,22 @@ h3 {
   background-color: #8dc63f;
 }
 
-.delete:hover {
+.add:hover + .course-description {
+  border-color: #8dc63f;
+}
+
+.delete:hover,
+.drop:hover {
   cursor: pointer;
   border-radius: 8px;
   color: white;
+  border-color: darkred;
   background-color: red;
+}
+
+.delete:hover + .course-description,
+.drop:hover + .course-description {
+  border-color: red;
 }
 
 /* detail styles*/
@@ -246,12 +299,79 @@ textarea {
   font-weight: bold;
 }
 
-/* login styles */
-.login {
+
+/* form styles */
+.login,
+.signup {
   width: 360px;
   margin: 0 auto;
   padding: 30px;
   box-shadow: 1px 2px 3px black;
-  border-radius: 10px;
+  border-radius: 8px;
   background: white;
+}
+
+.login input,
+.signup input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+.login input[type=submit],
+.signup input[type=submit],
+.create-course input[type=submit] {
+  width: 100%;
+  background-color: #006648;
+  color: white;
+  padding: 14px 20px;
+  margin: 24px 0 0 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1em;
+}
+
+.login input[type=submit]:hover,
+.signup input[type=submit]:hover,
+.create-course input[type=submit]:hover {
+  background-color: #8dc63f;
+}
+
+.login input[type=text]:focus,
+.login input[type=password]:focus,
+.signup input[type=text]:focus,
+.signup input[type=password]:focus {
+  outline: transparent !important;
+  border-color: #8dc63f;
+}
+
+.signup input[type=checkbox] {
+  accent-color: #006648;
+  margin-left: 24px;
+  width: 18px;
+  height: 18px;
+}
+
+.create-course input:focus,
+.create-course textarea:focus {
+  outline: #8dc63f;
+  border-color: #8dc63f;
+  box-shadow: 0 0 2px #006648;
+}
+
+.create-course select {
+  width: 100%;
+  color: black;
+  margin: 24px 0 0 0;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 400;
 }
