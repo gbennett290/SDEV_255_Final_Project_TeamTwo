@@ -27,6 +27,23 @@ module.exports.create_course = (req, res) => {
     };    
 }
 
+module.exports.update_course = (req, res) => {
+    // Only allow teachers to update courses
+    if (req.isTeacher === true) {
+        const courseID = req.body._id;
+        delete req.body['_id'];
+        Course.updateOne({_id: courseID}, req.body)
+            .then((result) => {
+                res.redirect('/courses');
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    } else {
+        res.redirect('/');
+    };   
+}
+
 module.exports.add_course = (req, res) => {
     const classID = req.params.id;
     const userID = req.userID;    

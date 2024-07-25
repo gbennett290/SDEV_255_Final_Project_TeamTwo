@@ -1,0 +1,56 @@
+<html lang = "en">
+<%- include('./partials/head.ejs') %>
+<body onload="selectionHandler()">
+
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="create-course">
+        <% if (courses.length > 0) { %>
+        <h2>Update Course</h2>
+        <form action="/courses/update" method="POST">            
+            <label for="_id">Select Course:</label>
+            <select name="_id" id="_id">
+                <% courses.forEach(entry => { %>
+                    <option value="<%= entry._id %>"><%= entry.code %> - <%= entry.title %></option>
+                <% }) %>
+            </select>
+            <label for="code">Course Code:</label>
+            <input type="text" id="code" name="code" placeholder="Example: SDEV255" required>
+            <label for="title">Course Title:</label>
+            <input type="text" id="title" name="title" placeholder="Example: Web Application Development" required>
+            <label for="subject">Course Subject Area:</label>
+            <input type="text" id="subject" name="subject" placeholder="Example: Software Development" required>
+            <label for="credits">Credit Hours:</label>
+            <input type="number" id="credits" name="credits" min="1" max="4" placeholder="Enter a value between 1 and 4" required>
+            <label for="description">Enter course description:</label>
+            <textarea id="description" name="description" required></textarea>
+            <input type="submit" value="Submit">
+        </form>
+        <% } else { %>
+            <p>The course index is currently empty and cannot be edited.</p>
+        <% } %>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+
+    <script>
+        const form = document.querySelector('form');
+        const dropDownSelection = document.querySelector('select');
+        const courseData = <%- JSON.stringify(courses) %>;
+
+        dropDownSelection.addEventListener('change', selectionHandler);
+
+        function selectionHandler() {
+            const foundCourse = Object.values(courseData).find(user => user._id === dropDownSelection.value);
+            
+            form._id.value = foundCourse._id;            
+            form.code.value = foundCourse.code;
+            form.title.value = foundCourse.title;
+            form.subject.value = foundCourse.subject;
+            form.credits.value = foundCourse.credits;
+            form.description.value = foundCourse.description;
+        }        
+    </script>
+    
+</body>
+</html>

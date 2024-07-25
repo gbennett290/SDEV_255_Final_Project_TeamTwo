@@ -365,3 +365,13 @@ textarea {
   border-color: #8dc63f;
   box-shadow: 0 0 2px #006648;
 }
+
+.create-course select {
+  width: 100%;
+  color: black;
+  margin: 24px 0 0 0;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 400;
+}

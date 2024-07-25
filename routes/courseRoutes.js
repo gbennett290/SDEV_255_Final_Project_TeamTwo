@@ -6,6 +6,7 @@ const router = Router();
 
 router.get('/courses', requireAuth, checkTeacher, courseController.courses_get);
 router.post('/courses', requireAuth, checkTeacher, courseController.create_course);
+router.post('/courses/update', requireAuth, checkTeacher, courseController.update_course);
 router.post('/courses/add/:id', requireAuth, checkTeacher, courseController.add_course);
 router.post('/courses/drop/:id', requireAuth, checkTeacher, courseController.drop_course);
 router.get('/courses/:id', requireAuth, courseController.course_details);

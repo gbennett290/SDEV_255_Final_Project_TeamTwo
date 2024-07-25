@@ -72,7 +72,22 @@ app.get('/schedule', requireAuth, checkTeacher, (req, res) =>{
 // create route
 app.get('/create', requireAuth, checkTeacher, (req, res) => { 
     if (req.isTeacher === true) {
-        res.render('create', { title: 'Edit or Create New Courses' });
+        res.render('create', { title: 'Create New Courses' });
+    } else {
+        res.redirect('/');
+    };
+});
+
+// update route
+app.get('/update', requireAuth, checkTeacher, (req, res) => { 
+    if (req.isTeacher === true) {
+        Course.find().sort({ code: 'asc'})
+        .then((result)=> {
+            res.render('update', { title: 'Edit Existing Courses', courses: result });
+        })
+        .catch((err) => {
+            console.log(err);
+        });        
     } else {
         res.redirect('/');
     };
